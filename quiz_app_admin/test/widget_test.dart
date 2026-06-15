@@ -5,26 +5,26 @@
 // gestures. You can also use WidgetTester to find child widgets in the widget
 // tree, read text, and verify that the values of widget properties are correct.
 
-import 'package:flutter/material.dart';
 import 'package:flutter_test/flutter_test.dart';
 
 import 'package:quiz_app_admin/main.dart';
 
 void main() {
-  testWidgets('Counter increments smoke test', (WidgetTester tester) async {
+  testWidgets('Home screen smoke test', (WidgetTester tester) async {
     // Build our app and trigger a frame.
-    await tester.pumpWidget(const MyApp());
+    await tester.pumpWidget(const QuizApp());
 
-    // Verify that our counter starts at 0.
-    expect(find.text('0'), findsOneWidget);
-    expect(find.text('1'), findsNothing);
+    // Verify that our home screen shows the welcome message.
+    expect(find.text('Welcome to the Quiz App'), findsOneWidget);
+    
+    // Verify that Admin Panel and Student Panel buttons exist.
+    expect(find.text('Admin Panel'), findsOneWidget);
+    expect(find.text('Student Panel'), findsOneWidget);
 
-    // Tap the '+' icon and trigger a frame.
-    await tester.tap(find.byIcon(Icons.add));
-    await tester.pump();
+    // Verify that tapping Admin Panel navigates or triggers an action.
+    await tester.tap(find.text('Admin Panel'));
+    await tester.pumpAndSettle();
 
-    // Verify that our counter has incremented.
-    expect(find.text('0'), findsNothing);
-    expect(find.text('1'), findsOneWidget);
+    expect(find.text('Admin Dashboard'), findsOneWidget);
   });
 }

@@ -1,6 +1,12 @@
 import 'package:flutter/material.dart';
 import 'package:hive_flutter/hive_flutter.dart';
+import 'package:provider/provider.dart';
+
 import 'data/model/product.dart';
+import 'data/datasource/api_datasource.dart';
+import 'data/datasource/local_datasource.dart';
+import 'data/repository/product_repository.dart';
+import 'providers/product_provider.dart';
 
 void main() async {
   // Ensure Flutter engine is initialized before running async tasks like Hive
@@ -8,14 +14,30 @@ void main() async {
   
   // Initialize Hive for local storage
   await Hive.initFlutter();
-  
-  // Register our auto-generated Product adapter so Hive understands our objects
   Hive.registerAdapter(ProductAdapter());
-  
-  // Open a 'box' (which is like a table in SQL databases) to store our products
   await Hive.openBox<Product>('products');
 
-  runApp(const MyApp());
+  // --- Dependency Injection ---
+  // We create our classes here and pass them down. This is much cleaner
+  // than creating them inside the UI.
+  final apiDataSource = ApiDataSource();
+  final localDataSource = LocalDataSource();
+  final productRepository = ProductRepository(
+    apiDataSource: apiDataSource,
+    localDataSource: localDataSource,
+  );
+
+  runApp(
+    // MultiProvider allows us to inject our state manager into the entire app
+    MultiProvider(
+      providers: [
+        ChangeNotifierProvider(
+          create: (_) => ProductProvider(repository: productRepository),
+        ),
+      ],
+      child: const MyApp(),
+    ),
+  );
 }
 
 class MyApp extends StatelessWidget {

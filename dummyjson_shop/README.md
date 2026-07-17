@@ -9,7 +9,7 @@ This is a Flutter application built as a university assignment demonstrating API
 - **[x] Data Modeling**: Maps raw JSON data from the API into strongly typed Dart objects (`Product`).
 - **[x] Local Caching (Offline Mode)**: Uses Hive database to store products locally for offline access.
 - **[x] API Integration**: Uses `dio` to fetch and manipulate products.
-- **[ ] State Management**: Uses `provider` to manage UI state effectively.
+- **[x] State Management**: Uses `provider` to manage UI state effectively.
 - **[ ] CRUD Operations**: Users can Create, Read, Update, and Delete products (simulated on API, persisted locally).
 - **[ ] Pagination**: Infinite scrolling for loading more products.
 - **[ ] Search functionality** to filter products.

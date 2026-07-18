@@ -112,6 +112,12 @@ class _AddEditProductScreenState extends State<AddEditProductScreen> {
                   validator: (value) => value!.isEmpty ? 'Please enter a description' : null,
                   onSaved: (value) => _description = value!,
                 ),
+                TextFormField(
+                  initialValue: _thumbnail,
+                  decoration: const InputDecoration(labelText: 'Image URL'),
+                  validator: (value) => value!.isEmpty ? 'Please enter an image URL' : null,
+                  onSaved: (value) => _thumbnail = value!,
+                ),
                 const SizedBox(height: 30),
                 SizedBox(
                   width: double.infinity,

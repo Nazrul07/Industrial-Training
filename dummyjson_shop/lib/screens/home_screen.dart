@@ -58,12 +58,28 @@ class _HomeScreenState extends State<HomeScreen> {
                 filled: true,
                 fillColor: Colors.white,
                 prefixIcon: const Icon(Icons.search),
+                suffixIcon: _searchController.text.isNotEmpty
+                    ? IconButton(
+                        icon: const Icon(Icons.clear),
+                        onPressed: () {
+                          _searchController.clear();
+                          context.read<ProductProvider>().searchProducts('');
+                          setState(() {}); // Hide the clear button
+                        },
+                      )
+                    : null,
                 contentPadding: EdgeInsets.zero,
                 border: OutlineInputBorder(
                   borderRadius: BorderRadius.circular(30.0),
                   borderSide: BorderSide.none,
                 ),
               ),
+              onChanged: (value) {
+                setState(() {}); // Updates the UI to show/hide the clear button
+                if (value.isEmpty) {
+                  context.read<ProductProvider>().searchProducts('');
+                }
+              },
               onSubmitted: (value) {
                 // Triggers search logic in the provider
                 context.read<ProductProvider>().searchProducts(value);

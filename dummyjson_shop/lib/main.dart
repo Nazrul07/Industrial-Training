@@ -7,19 +7,17 @@ import 'data/datasource/api_datasource.dart';
 import 'data/datasource/local_datasource.dart';
 import 'data/repository/product_repository.dart';
 import 'providers/product_provider.dart';
+import 'screens/home_screen.dart';
 
 void main() async {
-  // Ensure Flutter engine is initialized before running async tasks like Hive
   WidgetsFlutterBinding.ensureInitialized();
   
-  // Initialize Hive for local storage
+  // Setup Hive for local caching
   await Hive.initFlutter();
   Hive.registerAdapter(ProductAdapter());
   await Hive.openBox<Product>('products');
 
-  // --- Dependency Injection ---
-  // We create our classes here and pass them down. This is much cleaner
-  // than creating them inside the UI.
+  // Initialize dependencies
   final apiDataSource = ApiDataSource();
   final localDataSource = LocalDataSource();
   final productRepository = ProductRepository(
@@ -28,7 +26,6 @@ void main() async {
   );
 
   runApp(
-    // MultiProvider allows us to inject our state manager into the entire app
     MultiProvider(
       providers: [
         ChangeNotifierProvider(
@@ -51,11 +48,7 @@ class MyApp extends StatelessWidget {
         colorScheme: ColorScheme.fromSeed(seedColor: Colors.deepPurple),
         useMaterial3: true,
       ),
-      home: const Scaffold(
-        body: Center(
-          child: Text('Setup in progress...'),
-        ),
-      ),
+      home: const HomeScreen(),
     );
   }
 }

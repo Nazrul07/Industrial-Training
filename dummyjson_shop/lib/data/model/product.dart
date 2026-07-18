@@ -31,7 +31,7 @@ class Product extends HiveObject {
     required this.category,
   });
 
-  // This factory method converts the JSON from DummyJSON into our Product object
+  // Parses raw JSON response from DummyJSON API
   factory Product.fromJson(Map<String, dynamic> json) {
     return Product(
       id: json['id'] ?? 0,
@@ -43,7 +43,7 @@ class Product extends HiveObject {
     );
   }
 
-  // This method converts our Product object back to JSON (useful for CRUD operations)
+  // Serializes product for simulated API mutation requests
   Map<String, dynamic> toJson() {
     return {
       'id': id,

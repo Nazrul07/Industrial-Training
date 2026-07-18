@@ -10,9 +10,9 @@ This is a Flutter application built as a university assignment demonstrating API
 - **[x] Local Caching (Offline Mode)**: Uses Hive database to store products locally for offline access.
 - **[x] API Integration**: Uses `dio` to fetch and manipulate products.
 - **[x] State Management**: Uses `provider` to manage UI state effectively.
-- **[ ] CRUD Operations**: Users can Create, Read, Update, and Delete products (simulated on API, persisted locally).
-- **[ ] Pagination**: Infinite scrolling for loading more products.
-- **[ ] Search functionality** to filter products.
+- **[x] CRUD Operations**: Users can Create, Read, Update, and Delete products (simulated on API, persisted locally).
+- **[x] Pagination**: Infinite scrolling for loading more products.
+- **[x] Search functionality** to filter products.
 
 ## Packages Used
 - `dio`: For making HTTP network requests.

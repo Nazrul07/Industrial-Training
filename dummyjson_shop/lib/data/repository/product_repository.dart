@@ -8,39 +8,32 @@ class ProductRepository {
 
   ProductRepository({required this.apiDataSource, required this.localDataSource});
 
+  /// Orchestrates data fetching by prioritizing network with a local cache fallback
   Future<List<Product>> getProducts({int skip = 0, int limit = 20, String query = ''}) async {
     try {
-      // 1. Try to fetch fresh data from the internet
+      // Fetch fresh data from remote API
       final products = await apiDataSource.getProducts(skip: skip, limit: limit, query: query);
       
-      // 2. If successful, and we are fetching the first page without a search query, 
-      // let's cache it for offline use! We don't want to cache search results or page 2, 3 etc. 
-      // to keep the offline cache simple and relevant to the main screen.
+      // Cache the first page of default results for offline mode
       if (skip == 0 && query.isEmpty) {
         await localDataSource.cacheProducts(products);
       }
       
       return products;
     } catch (e) {
-      // 3. If the internet fails (e.g. no connection), fall back to our local cache
-      // We only return cached data if we were trying to load the first page without a search
+      // Fallback to local cache if offline
       if (skip == 0 && query.isEmpty) {
         final cachedProducts = await localDataSource.getCachedProducts();
         if (cachedProducts.isNotEmpty) {
           return cachedProducts;
         }
       }
-      // If we still fail (e.g. offline and no cache), throw the error to the UI
       throw Exception('Failed to load products. Check your internet connection.');
     }
   }
 
-  // --- CRUD Operations ---
-  
   Future<Product> addProduct(Product product) async {
-    // 1. Tell API to add it
     final newProduct = await apiDataSource.addProduct(product);
-    // 2. Save it locally so it shows up even if offline later
     await localDataSource.addProduct(newProduct);
     return newProduct;
   }

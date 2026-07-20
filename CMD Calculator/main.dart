@@ -1,3 +1,4 @@
+import 'dart:math' as math;
 import 'dart:io';
 
 void main() {
@@ -55,7 +56,7 @@ void main() {
         }
         break;
       case '5':
-        result = pow(firstNumber, secondNumber);
+        result = math.pow(firstNumber, secondNumber).toDouble();
         print('Result: $result');
         break;
       case '6':
